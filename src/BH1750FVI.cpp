@@ -88,16 +88,24 @@ void BH1750FVI::SetMode(eDeviceMode_t DeviceMode)
   I2CWrite(m_DeviceMode);
 }
 
-uint16_t BH1750FVI::GetLightIntensity(void)
+float BH1750FVI::GetLightIntensity(void)
 {
   uint16_t Value = 0;
 
-  Wire.requestFrom(m_DeviceAddress, 2);
+  if (Wire.requestFrom(m_DeviceAddress, 2) != 2) {
+    return -1.0f;
+  }
   Value = Wire.read();
   Value <<= 8;
   Value |= Wire.read();
 
-  return Value / 1.2;
+  // H-Resolution Mode2 has 0.5 lx resolution; the raw count must be halved
+  // before applying the 1.2 conversion factor (BH1750FVI datasheet, p.11)
+  if (m_DeviceMode == k_DevModeContHighRes2 || m_DeviceMode == k_DevModeOneTimeHighRes2) {
+    return Value / 1.2f / 2.0f;
+  }
+
+  return Value / 1.2f;
 }
 
 void BH1750FVI::I2CWrite(uint8_t Data)

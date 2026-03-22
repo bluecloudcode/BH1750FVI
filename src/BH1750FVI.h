@@ -83,9 +83,9 @@ class BH1750FVI {
 
     /*
      * Get the measured light intensity from the device
-     * @return The light intensity measured by the device in 'lux'
+     * @return The light intensity measured by the device in 'lux', or -1.0 on I2C error
      */
-    uint16_t GetLightIntensity(void);
+    float GetLightIntensity(void);
     
     /*
      * Set the mode
