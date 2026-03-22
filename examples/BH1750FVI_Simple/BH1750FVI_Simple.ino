@@ -6,7 +6,7 @@
   GND  <-> Gnd [purple]
   SDA  <-> D2  [green]
   SCL  <-> D1  [blue]
-  ADDR <-> RX  [yellow]
+  ADDR <-> D7  [yellow]  (GPIO13, pin 13)
 */
 
 #include <Wire.h>
@@ -29,7 +29,7 @@ void setup()
 
 void loop()
 {
-  uint16_t lux = LightSensor.GetLightIntensity();
+  float lux = LightSensor.GetLightIntensity();
   Serial.print("Light: ");
   Serial.println(lux);
   delay(250);

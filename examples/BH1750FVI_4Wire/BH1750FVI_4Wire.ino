@@ -33,7 +33,7 @@ void setup()
 
 void loop()
 {
-  uint16_t lux = LightSensor.GetLightIntensity();
+  float lux = LightSensor.GetLightIntensity();
   Serial.print("Light: ");
   Serial.println(lux);
   delay(250);
